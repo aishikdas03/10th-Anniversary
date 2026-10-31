@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ten Stars ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>document.documentElement.className = 'js';</script>
+
+<style>
+  :root{ --gold:#ffd97a; --pink:#ffb8d1; --cream:#fff7e8; --ink:#1b2757; --mid:#2a3f93; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{font-family:'Fredoka',Arial,sans-serif;color:#eaf0ff;text-align:center;min-height:100vh;background:#0e1a4d;overflow-x:hidden}
+  body.lock{overflow:hidden;height:100vh}
+  h2{font-size:2rem;font-weight:600;color:var(--gold);margin-bottom:.3em;text-shadow:0 0 14px rgba(255,217,122,.35)}
+  section{padding:3.5rem 1.4rem;max-width:1000px;margin:0 auto;position:relative;z-index:2}
+  .lead{opacity:.75;margin-bottom:1.2rem;font-size:1.05rem}
+
+  /* sky */
+  #sky{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,#070d2b 0%,#0e1a4d 45%,#1b2c78 100%)}
+  .tw{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite}
+  @keyframes twinkle{50%{opacity:.15}}
+  .shoot{position:fixed;z-index:1;width:120px;height:3px;border-radius:3px;pointer-events:none;
+    background:linear-gradient(90deg,rgba(255,255,255,0),#fff);opacity:0;animation:shoot 1.3s ease-out forwards}
+  @keyframes shoot{0%{opacity:1;transform:translate(0,0) rotate(-30deg)}100%{opacity:0;transform:translate(-420px,240px) rotate(-30deg)}}
+  .spark{position:fixed;z-index:250;pointer-events:none;font-size:15px;animation:spark .8s ease-out forwards}
+  @keyframes spark{to{transform:translateY(-28px) scale(.3);opacity:0}}
+  #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:300;display:none}
+
+  /* splash */
+  #splash{position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:#050a20;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;cursor:pointer;transition:opacity 1s;padding:1rem}
+  #splash.hide{opacity:0;pointer-events:none}
+  #splash svg{width:44px;height:44px;animation:pulseStar 1.8s ease-in-out infinite}
+  #splash polygon{fill:#ffd97a}
+  @keyframes pulseStar{50%{transform:scale(1.6)}}
+  #splash h3{margin-top:1.8rem;font-size:1.8rem;font-weight:600;color:var(--cream)}
+  #splash p{margin-top:.7rem;opacity:.65}
+
+  /* hero */
+  #hero{padding-top:2.5rem;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .moonwrap{position:relative;width:52vw;max-width:230px;cursor:pointer;animation:float 5s ease-in-out infinite;margin-top:.5rem;will-change:transform}
+  .moonwrap:before{content:'';position:absolute;left:-18%;top:-18%;width:136%;height:136%;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,236,170,.4),rgba(255,236,170,0) 65%)}
+  @keyframes float{50%{transform:translateY(-12px)}}
+  .moonwrap svg{position:relative;width:100%;display:block}
+  .eye{transform-origin:center;transform-box:fill-box;animation:blink 5s infinite}
+  @keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+  .moonwrap.hop{animation:hop .5s}
+  @keyframes hop{30%{transform:translateY(-34px) scale(1.06)}60%{transform:translateY(0) scale(.97)}}
+  .bubble{position:absolute;left:100%;top:6%;margin-left:6px;background:var(--cream);color:var(--ink);padding:.6rem .9rem;
+    border-radius:18px 18px 18px 4px;font-size:1rem;width:150px;opacity:0;transform:scale(.6);transform-origin:left bottom;
+    transition:opacity .3s,transform .3s;pointer-events:none;z-index:3}
+  .bubble.show{opacity:1;transform:scale(1)}
+  .tip{opacity:.6;font-size:.85rem;margin-top:.6rem}
+  h1{font-size:2.6rem;font-weight:600;color:var(--cream);margin-top:1rem;line-height:1.15}
+  h1 em{font-style:normal;color:var(--gold);text-shadow:0 0 18px rgba(255,217,122,.5)}
+  .sub{font-size:1.2rem;opacity:.9;margin-top:.8rem;min-height:1.8em;max-width:540px}
+  .counter{margin-top:1.4rem}
+  .unit{display:inline-block;margin:.4rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+    padding:.8rem 1rem;border-radius:22px;min-width:80px}
+  .unit b{display:block;font-size:2rem;color:var(--gold);font-weight:600}
+  .unit span{font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;opacity:.7}
+  .scroll{margin-top:2rem;font-size:1.9rem;color:var(--gold);animation:bounce 1.6s infinite}
+  @keyframes bounce{50%{transform:translateY(10px)}}
+
+  .cloud{position:absolute;width:96px;opacity:.9;z-index:1;animation:drift linear infinite;will-change:transform}
+  .cloud svg{width:100%;display:block}
+  .c1{top:12%;left:-120px;animation-duration:42s}
+  .c2{top:30%;left:-120px;width:70px;animation-duration:60s;animation-delay:-25s;opacity:.7}
+  @keyframes drift{to{transform:translateX(130vw)}}
+
+  /* constellation */
+  .progress{margin-bottom:1.4rem}
+  .bar{display:inline-block;vertical-align:middle;width:60vw;max-width:300px;height:14px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffb8d1,#ffd97a);border-radius:99px;transition:width .5s}
+  #count{display:inline-block;vertical-align:middle;margin-left:.7rem;font-weight:500;color:var(--gold)}
+  .constel{position:relative;width:100%;max-width:860px;margin:0 auto;padding-top:82%;
+    background:rgba(120,150,255,.08);border-radius:36px;border:1px solid rgba(255,255,255,.1)}
+  .constel .lines{position:absolute;top:0;left:0;width:100%;height:100%}
+  .constel line{stroke:rgba(255,255,255,.22);stroke-width:2;stroke-dasharray:4 7;vector-effect:non-scaling-stroke}
+  .constel line.lit{stroke:#ffd97a;stroke-dasharray:none}
+  .star{position:absolute;width:76px;height:76px;margin:-38px 0 0 -38px;border:none;background:none;cursor:pointer;
+    animation:starpulse 3.2s ease-in-out infinite;font-family:inherit;color:#1b2757;will-change:transform}
+  .star .glow{position:absolute;left:-25%;top:-25%;width:150%;height:150%;border-radius:50%;
+    background:radial-gradient(circle,rgba(190,215,255,.5),rgba(190,215,255,0) 65%)}
+  .star svg{position:absolute;top:0;left:0;width:100%;height:100%}
+  .star .sp{fill:#cfe0ff}
+  .star .num{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding-top:6px;font-weight:600;font-size:1.1rem}
+  .star small{position:absolute;top:100%;left:50%;width:70px;margin-left:-35px;margin-top:-6px;font-size:.75rem;color:#cfd9ff;font-weight:500}
+  .star.done{animation:none}
+  .star.done .glow{background:radial-gradient(circle,rgba(255,217,122,.6),rgba(255,217,122,0) 65%)}
+  .star.done .sp{fill:#ffd97a}
+  .star.done small{color:var(--gold)}
+  @keyframes starpulse{50%{transform:scale(1.1)}}
+
+  /* pause background animations while a card is open (stops lag) */
+  body.paused .tw,body.paused .star,body.paused .cloud,body.paused .moonwrap,body.paused .pol,body.paused .bulb,body.paused .scroll{animation-play-state:paused}
+
+  /* overlays */
+  .overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:400;background:rgba(5,9,30,.88);display:none;align-items:center;justify-content:center;padding:1rem}
+  .overlay.show{display:flex}
+  .card{background:var(--cream);color:var(--ink);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:30px;padding:1.6rem 1.5rem 1.4rem;
+    position:relative;box-shadow:0 14px 40px rgba(0,0,0,.45);animation:pop .35s ease-out}
+  @keyframes pop{from{opacity:0;transform:scale(.85) translateY(20px)}}
+  .card .mo{font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#7b88c9}
+  .card h3{font-size:1.8rem;font-weight:600;margin:.2rem 0 .8rem;color:var(--mid)}
+  .card .txt{font-family:'Caveat',cursive;font-size:1.65rem;line-height:1.35;white-space:pre-wrap}
+  .pic{width:80%;max-width:300px;margin:.3rem auto 1rem;background:#fff;padding:10px 10px 32px;border-radius:6px;box-shadow:0 6px 16px rgba(10,18,54,.2);transform:rotate(-2deg)}
+  .pic img{width:100%;height:230px;object-fit:cover;display:block;border-radius:3px}
+  .sticker{font-size:5rem;margin:.2rem 0 .6rem}
+  .row{margin-top:1.2rem}
+  .btn{border:none;font:600 1.05rem 'Fredoka',Arial,sans-serif;padding:.85rem 1.5rem;margin:.3rem;border-radius:99px;cursor:pointer;min-height:52px;background:#ff8fb5;color:#fff}
+  .btn.alt{background:#e4e9ff;color:var(--mid)}
+  .x{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:50%;border:none;background:#e4e9ff;color:var(--mid);font-size:1.2rem;cursor:pointer;z-index:2}
+  .letter{background:#fffaf0;background-image:repeating-linear-gradient(transparent,transparent 37px,#e3e8ff 38px)}
+  .letter .txt{line-height:38px;font-size:1.7rem;min-height:120px;text-align:left}
+  .letter .sign{display:block;text-align:right;font-family:'Caveat',cursive;font-size:2rem;color:var(--mid);margin-top:.6rem;opacity:0;transition:opacity 1s}
+  .letter .sign.on{opacity:1}
+
+  /* gallery */
+  .lights{display:flex;justify-content:space-around;margin:0 auto;max-width:900px;border-top:2px solid rgba(255,255,255,.25);padding:0 .5rem}
+  .bulb{width:14px;height:20px;border-radius:50% 50% 55% 55%;margin-top:-2px;animation:glow 2.4s ease-in-out infinite}
+  @keyframes glow{50%{opacity:.35}}
+  .gallery{margin-top:1.4rem}
+  .pol{display:inline-block;margin:1rem;background:#fff;color:var(--ink);padding:10px 10px 42px;width:42vw;max-width:230px;border-radius:4px;
+    box-shadow:0 8px 18px rgba(0,0,0,.35);position:relative;cursor:pointer;transform-origin:top center;animation:sway 5s ease-in-out infinite;will-change:transform}
+  .pol:nth-child(even){animation-delay:-2.5s}
+  .pol:before{content:'';position:absolute;top:-14px;left:50%;width:14px;height:30px;margin-left:-7px;background:#e9c98a;border-radius:3px}
+  .pol img{width:100%;height:200px;object-fit:cover;display:block;border-radius:2px}
+  .pol span{position:absolute;bottom:8px;left:0;right:0;font-family:'Caveat',cursive;font-size:1.4rem}
+  @keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+  .empty{opacity:.6;padding:2rem}
+  #lb img{max-width:94vw;max-height:80vh;border-radius:10px}
+  #lb p{position:absolute;bottom:6vh;left:0;right:0;font-family:'Caveat',cursive;font-size:1.9rem;color:#fff}
+
+  .wishbtn{border:none;font:600 1.3rem 'Fredoka',Arial,sans-serif;color:var(--ink);padding:1.1rem 2.2rem;border-radius:99px;min-height:60px;cursor:pointer;
+    background:linear-gradient(135deg,#fff2b8,#ffc94d);box-shadow:0 0 26px rgba(255,217,122,.6)}
+  .wishbtn.locked{background:rgba(255,255,255,.12);color:#aab6ea;box-shadow:none}
+  footer{padding:2rem 1rem 6rem;font-family:'Caveat',cursive;font-size:2.1rem;color:var(--pink);position:relative;z-index:2}
+
+  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+  .js .reveal.in{opacity:1;transform:none}
+
+  #toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-100px);background:var(--cream);color:var(--ink);padding:.8rem 1.4rem;border-radius:99px;
+    z-index:450;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .4s;white-space:nowrap}
+  #toast.show{transform:translate(-50%,0)}
+  #musicBtn{position:fixed;z-index:60;left:16px;bottom:16px;display:none;border:none;background:var(--gold);color:var(--ink);width:56px;height:56px;border-radius:50%;font-size:1.4rem;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+
+  @media (min-width:700px){ h1{font-size:4rem} h2{font-size:2.7rem} .pol img{height:230px} }
+  @media (max-width:640px){
+    .star{width:60px;height:60px;margin:-30px 0 0 -30px}
+    .star .num{font-size:.95rem}.star small{font-size:.62rem}
+    .bubble{left:auto;right:-10px;top:-54px;transform-origin:right bottom}
+  }
+</style>
+
+<!-- ============ EDIT THIS PART, THEN SAVE AND REFRESH ============ -->
+<script>
+var CONFIG = {
+  herName: "Puchi Baby",
+  yourName: "Puchu Baby",
+  startDate: "2026-01-01",     // day you got together (YYYY-MM-DD)
+  music: "Chalo Chalein.mp3",                   // e.g. "song.mp3" (same folder as this file). "" = none
+
+  moonSays: [
+    "Hi you! 🌙", "You're my favourite person", "I'm so proud of you 💙",
+    "Did you eat today? 🍓", "Look up, I'm thinking of you", "Ten whole months! ✨", "You're stuck with me 🫶"
+  ],
+
+  // One star per month. To show a photo inside a star add:  photo: "pic1.jpg"
+  stars: [
+    { title: "Hello, you",     text: "Remember our first Saraswati Pujo, I hope to celebrate every other with u forever❤️" },
+    { title: "Butterflies",    text: "Remember the time when we started coming closer in school for Farewell preparation. It still gives me butterflies 😳" },
+    { title: "Our first date", text: "Remember our first photo together💋" },
+    { title: "Silly us",       text: "Remember our gulu gulu and ghop ghop sessions in Rakshit's classes 😏" },
+    { title: "Little things",  text: "Remember how we could not see each other in schools for so many days😭" },
+    { title: "Halfway there",  text: "Half a year already completed here and it doesnt even feel real to me. Its all a dream 🧿" },
+    { title: "Hard days",      text: "Exams and exams covered by syllabus but my mind still thinking about you 😝" },
+    { title: "Adventures",     text: "Remember how we went to our first group date and we saw a movie. It was so awesome with u by my side 🤗" },
+    { title: "Growing closer", text: "So many fights this month but still u over anybody ever🥰" },
+    { title: "Ten months!",    text: "Month without fights and durga puja hapiness spread all ofver you ❤️" }
+  ],
+
+  // The wish letter. Opens after she collects all 10 stars.
+  note: `10 months damnnnnnnnn. 
+  One of the milestones that I never thought I would be able to see with you before our relationship kokhono bhabini that we would celebrate our 10 months anniversary ever 😭😭. 
+  I am super duper happy that we did not have any major fights this month I am so damn happy 😭😭😭😭😭😭. 
+  In these past 10 month I understood one thing which is je falling in love with you is the best thing that has happened to me ever ❤️❤️❤️. 
+  Ami janina how did my heart know u are the right person or je falling in love with you would be the best, but I am greatful to my mind for listening to my heart and following what it said 💋💋💋. 
+  Ami jani amr didi onk kichu bhul bhal bokeche and all but ami toke bhalo rakhabo and sobar theke dure rakhbo sobar theke 🥰🥰. 
+  Amra nijeder pahad er pichone ekta choto kroe bari banabo diye okhane amra puro din gulu gulu aar ghop ghop korbo promise ❤️❤️. A
+  mi jani amader sopno onek boro but ami jani je ami aar tui je atto mehenat korchi amra puro ta achieve korte parbo 😝😝😝😝.
+   Ei maash e toh abr ekta DIVA r birth day o asche sunlam tai naki 😏😏😏. 
+   Eita toh kichu na oi DIVA ta r actual gift oi din paabe ekdom shock hoye jaabe 😈😈😈. 
+   Aar ami toke jotoi ragebait korina keno joitoi kori na kneo loving u would be forever my fav activity jai hok na keno 🥰🥰🥰. 
+   Koto sopne dekhechi tor sthe ami koto gulooooooo, toke kole boshano theke niye toke niye baire ghurte jaba and amader bari banano amra sob kota puro korbo sob kota 😁😁. 
+   Ami beshi kichu korchina because something bog is cooking up 😏😏😏. 
+   I love you veryyyyyyyyyyyyyyyyyyyy muchhhhhhhhhhhhh onek beshi bhalo bashi amiiiiiiiiiiiii😝😝😝😝😝😝😝😝😝.`,
+
+  // Photos (same folder as this file). They hang from the fairy lights.
+  photos: [
+    { src: "photo1.jpg", caption: "Our first month" },
+    { src: "photo2.jpg", caption: "My fav dress in tuition" },
+    { src: "photo3.jpg", caption: "Our First photo" },
+    { src: "photo4.jpg", caption: "Gulu Gulu in tuition" },
+    { src: "photo5.jpg", caption: "My Happy beautiful baby" },
+    { src: "photo6.jpg", caption: "How we look at each other" },
+    { src: "photo7.jpg", caption: "Surprise Surprise!" },
+    { src: "photo8.jpg", caption: "See how happy I am with u" },
+    { src: "photo9.jpg", caption: "Bhai ki bhalo laagchis re teachers day ourfit tay tui" },
+    { src: "photo10.jpg", caption: "We are closer than this" },
+  ]
+};
+
+function closeSplash(){
+  var s = document.getElementById('splash');
+  if(!s) return;
+  s.className = 'hide';
+  document.body.className = '';
+  setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 1100);
+  try { if(window.afterSplash) window.afterSplash(); } catch(e){}
+}
+</script>
+<!-- =============================================================== -->
+</head>
+<body class="lock">
+
+<div id="sky"></div>
+<canvas id="confetti"></canvas>
+<div id="toast"></div>
+
+<div id="splash" onclick="closeSplash()">
+  <svg viewBox="0 0 100 100"><polygon points="50,5 61,38 96,38 68,59 79,92 50,72 21,92 32,59 4,38 39,38"/></svg>
+  <h3>Close your eyes... then tap</h3>
+  <p>to switch on the stars</p>
+</div>
+
+<section id="hero">
+  <div class="cloud c1"><svg viewBox="0 0 100 60"><g fill="#dfe8ff"><circle cx="30" cy="38" r="20"/><circle cx="55" cy="28" r="24"/><circle cx="76" cy="40" r="17"/><rect x="14" y="38" width="76" height="19" rx="9"/></g><circle cx="46" cy="40" r="2.4" fill="#1b2757"/><circle cx="62" cy="40" r="2.4" fill="#1b2757"/><circle cx="40" cy="46" r="4" fill="#ffb8d1" opacity=".8"/><circle cx="68" cy="46" r="4" fill="#ffb8d1" opacity=".8"/><path d="M51 45q3 3 6 0" stroke="#1b2757" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+  <div class="cloud c2"><svg viewBox="0 0 100 60"><g fill="#c9bbff"><circle cx="30" cy="38" r="20"/><circle cx="55" cy="28" r="24"/><circle cx="76" cy="40" r="17"/><rect x="14" y="38" width="76" height="19" rx="9"/></g><path d="M40 42q3 3 6 0M58 42q3 3 6 0" stroke="#1b2757" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+  <div class="moonwrap" id="moon">
+    <svg viewBox="0 0 200 200">
+      <defs><radialGradient id="mg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fffbe6"/><stop offset="1" stop-color="#ffe08a"/></radialGradient></defs>
+      <circle cx="100" cy="100" r="92" fill="url(#mg)"/>
+      <circle cx="42" cy="62" r="11" fill="#f5d77a" opacity=".6"/><circle cx="150" cy="140" r="14" fill="#f5d77a" opacity=".6"/><circle cx="152" cy="52" r="7" fill="#f5d77a" opacity=".6"/>
+      <ellipse class="eye" cx="70" cy="98" rx="6" ry="9" fill="#1b2757"/><ellipse class="eye" cx="130" cy="98" rx="6" ry="9" fill="#1b2757"/>
+      <circle cx="58" cy="120" r="12" fill="#ffb8d1" opacity=".85"/><circle cx="142" cy="120" r="12" fill="#ffb8d1" opacity=".85"/>
+      <path d="M88 122q12 12 24 0" stroke="#1b2757" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble" id="bubble"></div>
+  </div>
+  <p class="tip">tap the moon, she has things to say</p>
+
+  <h1 id="title">Happy 10 Months,<br><em>Puchi 💙</em></h1>
+  <p class="sub" id="sub">Ten months, ten stars, and one very lucky me.</p>
+  <div class="counter">
+    <div class="unit"><b id="d">0</b><span>days</span></div>
+    <div class="unit"><b id="h">0</b><span>hours</span></div>
+    <div class="unit"><b id="m">0</b><span>mins</span></div>
+    <div class="unit"><b id="s">0</b><span>secs</span></div>
+  </div>
+  <div class="scroll">&#8964;</div>
+</section>
+
+<section id="mapSec" class="reveal">
+  <h2>Our ten stars ⭐</h2>
+  <p class="lead">tap a star to open a memory, collect them all for a surprise</p>
+  <div class="progress"><div class="bar"><i id="fill"></i></div><span id="count">0 / 10</span></div>
+  <div class="constel" id="constel"><svg class="lines" id="lines" viewBox="0 0 100 100" preserveAspectRatio="none"></svg></div>
+</section>
+
+<section id="photoSec" class="reveal">
+  <h2>Hung up with fairy lights 🌟</h2>
+  <p class="lead">tap a polaroid to see it bigger</p>
+  <div class="lights" id="lights"></div>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section id="wishSec" class="reveal">
+  <h2>One last thing...</h2>
+  <p class="lead">a shooting star is waiting for you</p>
+  <button class="wishbtn locked" id="wishBtn">🔒 Collect all 10 stars first</button>
+</section>
+
+<footer id="footer">Forever yours 🌙</footer>
+
+<div class="overlay" id="mo">
+  <div class="card">
+    <button class="x" id="mx">✕</button>
+    <div id="mpic"></div>
+    <div class="mo" id="mmo"></div>
+    <h3 id="mtitle"></h3>
+    <div class="txt" id="mtext"></div>
+    <div class="row"><button class="btn alt" id="mprev">‹ Back</button><button class="btn" id="mnext">Next star ›</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="lo">
+  <div class="card letter">
+    <button class="x" id="lx">✕</button>
+    <div class="mo">your wish came true 🌠</div>
+    <h3>A note for you</h3>
+    <div class="txt" id="ltext"></div>
+    <span class="sign" id="lsign"></span>
+  </div>
+</div>
+
+<div class="overlay" id="lb"><button class="x" id="lbx">✕</button><img id="lbi" alt=""><p id="lbc"></p></div>
+
+<button id="musicBtn">🎵</button>
+
+<script>
+(function(){
+try {
+  var $ = function(id){ return document.getElementById(id); };
+  var POS = [[12,80],[27,58],[14,37],[33,15],[52,32],[50,64],[67,84],[84,62],[72,37],[88,15]];
+  var STICKERS = ['🌙','🦋','🍓','🧸','🌷','☁️','🫶','🌻','🎀','💙'];
+  var photos = CONFIG.photos.slice();
+  var visited = {}, visitedCount = 0;
+  var cur = 0, unlocked = false, audio = null, typer = null, moonIx = 0;
+
+  function setPaused(){
+    var open = /show/.test($('mo').className) || /show/.test($('lo').className) || /show/.test($('lb').className);
+    document.body.className = open ? 'paused' : '';
+  }
+  function openOv(id){ $(id).className = 'overlay show'; setPaused(); }
+  function closeOv(id){ $(id).className = 'overlay'; setPaused(); }
+
+  /* ----- twinkling background (kept light) ----- */
+  var sky = $('sky');
+  for(var i = 0; i < 45; i++){
+    var s = document.createElement('div'); s.className = 'tw';
+    var z = Math.random() * 2.4 + 1;
+    s.style.left = Math.random()*100 + '%'; s.style.top = Math.random()*100 + '%';
+    s.style.width = z + 'px'; s.style.height = z + 'px';
+    s.style.animationDelay = Math.random()*3 + 's';
+    s.style.animationDuration = (2 + Math.random()*3) + 's';
+    sky.appendChild(s);
+  }
+  function shooting(){
+    var e = document.createElement('div'); e.className = 'shoot';
+    e.style.left = (45 + Math.random()*50) + 'vw'; e.style.top = (Math.random()*35) + 'vh';
+    document.body.appendChild(e); setTimeout(function(){ if(e.parentNode) e.parentNode.removeChild(e); }, 1400);
+  }
+  setInterval(function(){ if(document.body.className.indexOf('paused') < 0) shooting(); }, 8000);
+
+  function toast(msg){
+    var t = $('toast'); t.textContent = msg; t.className = 'show';
+    clearTimeout(toast.t); toast.t = setTimeout(function(){ t.className = ''; }, 2600);
+  }
+
+  /* ----- sparkles (capped so they never pile up) ----- */
+  var live = 0;
+  function spark(x, y){
+    if(live > 12) return; live++;
+    var e = document.createElement('div'); e.className = 'spark';
+    e.textContent = ['✨','⭐','💙','🌙'][Math.floor(Math.random()*4)];
+    e.style.left = x + 'px'; e.style.top = y + 'px';
+    document.body.appendChild(e);
+    setTimeout(function(){ live--; if(e.parentNode) e.parentNode.removeChild(e); }, 850);
+  }
+  function sparkleBurst(n){
+    for(var k = 0; k < n; k++){ (function(k){
+      setTimeout(function(){ spark(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.8 + 30); }, k*90);
+    })(k); }
+  }
+  /* sparkles only on tap / mouse move, never while scrolling with a finger */
+  var lastSpark = 0;
+  document.addEventListener('mousemove', function(e){ var n = Date.now(); if(n - lastSpark < 110) return; lastSpark = n; spark(e.clientX, e.clientY); });
+  document.addEventListener('touchstart', function(e){
+    var t = e.touches[0]; if(!t) return;
+    for(var k = 0; k < 3; k++) spark(t.clientX + (Math.random()-.5)*50, t.clientY + (Math.random()-.5)*50);
+  }, { passive: true });
+
+  /* ----- confetti: emoji drawn once, then reused (this is what removes the lag) ----- */
+  var cv = $('confetti'), ctx = cv.getContext('2d');
+  var chars = ['⭐','💙','✨','🌙','💫','🤍'], sprites = [];
+  for(var c = 0; c < chars.length; c++){
+    var sc = document.createElement('canvas'); sc.width = 48; sc.height = 48;
+    var sx = sc.getContext('2d'); sx.font = '34px serif'; sx.textAlign = 'center'; sx.textBaseline = 'middle';
+    sx.fillText(chars[c], 24, 26); sprites.push(sc);
+  }
+  var ps = [], running = false;
+  function sizeCanvas(){ cv.width = window.innerWidth; cv.height = window.innerHeight; }
+  window.addEventListener('resize', sizeCanvas);
+  function confetti(n){
+    sizeCanvas();
+    for(var k = 0; k < n; k++){
+      ps.push({ x: window.innerWidth/2 + (Math.random()-.5)*140, y: window.innerHeight*0.55,
+        vx: (Math.random()-.5)*12, vy: -7 - Math.random()*10, sz: 22 + Math.random()*18,
+        sp: sprites[Math.floor(Math.random()*sprites.length)], l: 0 });
+    }
+    if(running) return;
+    running = true; cv.style.display = 'block';
+    (function frame(){
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      var alive = [];
+      for(var j = 0; j < ps.length; j++){
+        var p = ps[j]; p.vy += .33; p.x += p.vx; p.y += p.vy; p.l++;
+        if(p.y < cv.height + 40 && p.l < 110){
+          ctx.globalAlpha = Math.max(0, 1 - p.l/110);
+          ctx.drawImage(p.sp, p.x, p.y, p.sz, p.sz);
+          alive.push(p);
+        }
+      }
+      ctx.globalAlpha = 1; ps = alive;
+      if(alive.length) requestAnimationFrame(frame);
+      else { ctx.clearRect(0, 0, cv.width, cv.height); cv.style.display = 'none'; running = false; }
+    })();
+  }
+
+  /* ----- scroll reveal ----- */
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      for(var k = 0; k < entries.length; k++){
+        if(entries[k].isIntersecting){ entries[k].target.className += ' in'; io.unobserve(entries[k].target); }
+      }
+    }, { threshold: 0.1 });
+    var rs = document.querySelectorAll('.reveal');
+    for(var r = 0; r < rs.length; r++) io.observe(rs[r]);
+  } else { document.documentElement.className = ''; }
+
+  /* ----- build page ----- */
+  function renderTexts(){
+    $('title').innerHTML = 'Happy 10 Months,<br><em></em>';
+    $('title').getElementsByTagName('em')[0].textContent = CONFIG.herName + ' 💙';
+    $('footer').textContent = 'Forever yours, ' + CONFIG.yourName + ' 🌙';
+  }
+
+  function buildConstellation(){
+    var box = $('constel'), lines = $('lines');
+    for(var a = 0; a < 9; a++){
+      var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', POS[a][0]); l.setAttribute('y1', POS[a][1]);
+      l.setAttribute('x2', POS[a+1][0]); l.setAttribute('y2', POS[a+1][1]);
+      l.setAttribute('id', 'ln' + a); lines.appendChild(l);
+    }
+    for(var n = 0; n < CONFIG.stars.length && n < 10; n++){ (function(n){
+      var b = document.createElement('button'); b.className = 'star';
+      b.style.left = POS[n][0] + '%'; b.style.top = POS[n][1] + '%'; b.style.animationDelay = (n*0.3) + 's';
+      b.id = 'st' + n;
+      b.innerHTML = '<span class="glow"></span><svg viewBox="0 0 100 100"><polygon class="sp" points="50,5 61,38 96,38 68,59 79,92 50,72 21,92 32,59 4,38 39,38"/></svg>' +
+                    '<span class="num">' + (n+1) + '</span><small>Month ' + (n+1) + '</small>';
+      b.onclick = function(){ openStar(n); };
+      box.appendChild(b);
+    })(n); }
+  }
+
+  function refreshProgress(){
+    for(var k = 0; k < 10; k++){
+      var st = $('st' + k); if(st && visited[k]) st.className = 'star done';
+      var ln = $('ln' + k); if(ln){ if(visited[k] && visited[k+1]) ln.setAttribute('class', 'lit'); }
+    }
+    $('fill').style.width = (visitedCount * 10) + '%';
+    $('count').textContent = visitedCount + ' / 10';
+    var w = $('wishBtn');
+    if(visitedCount === 10){ w.className = 'wishbtn'; w.textContent = '🌠 Make a wish'; }
+    else { w.className = 'wishbtn locked'; w.textContent = '🔒 Collect all 10 stars first'; }
+  }
+
+  function buildGallery(){
+    var lights = $('lights'); lights.innerHTML = '';
+    var cols = ['#ffb8d1','#ffd97a','#9fd0ff','#c9bbff','#b6f5d0'];
+    for(var i = 0; i < 14; i++){
+      var b = document.createElement('div'); b.className = 'bulb';
+      b.style.background = cols[i % 5]; b.style.animationDelay = (i*0.25) + 's'; lights.appendChild(b);
+    }
+    var g = $('gallery'); g.innerHTML = '';
+    if(!photos.length) g.innerHTML = '<p class="empty">Add your photos in the CONFIG block ✨</p>';
+    for(var p = 0; p < photos.length; p++){ (function(ph){
+      var d = document.createElement('div'); d.className = 'pol';
+      var img = document.createElement('img'); img.src = ph.src; img.alt = ph.caption || 'us';
+      var c = document.createElement('span'); c.textContent = ph.caption || '♡';
+      d.appendChild(img); d.appendChild(c);
+      d.onclick = function(){ $('lbi').src = ph.src; $('lbc').textContent = ph.caption || ''; openOv('lb'); };
+      g.appendChild(d);
+    })(photos[p]); }
+  }
+
+  /* ----- memory card ----- */
+  function openStar(i){
+    cur = (i + 10) % 10;
+    var st = CONFIG.stars[cur];
+    var photo = st.photo || (photos[cur] && photos[cur].src);
+    var pic = $('mpic'); pic.innerHTML = '';
+    if(photo){
+      var w = document.createElement('div'); w.className = 'pic';
+      var im = document.createElement('img'); im.src = photo; im.alt = ''; w.appendChild(im); pic.appendChild(w);
+    } else {
+      var s = document.createElement('div'); s.className = 'sticker'; s.textContent = STICKERS[cur]; pic.appendChild(s);
+    }
+    $('mmo').textContent = 'Month ' + (cur+1);
+    $('mtitle').textContent = st.title; $('mtext').textContent = st.text;
+    $('mnext').textContent = cur === 9 ? 'First star' : 'Next star ›';
+    if(!visited[cur]){ visited[cur] = true; visitedCount++; }
+    refreshProgress();
+    openOv('mo');
+    if(visitedCount === 10 && !unlocked){
+      unlocked = true;
+      setTimeout(function(){ toast('You collected every star! ✨'); confetti(55); }, 400);
+    }
+  }
+  $('mx').onclick = function(){ closeOv('mo'); };
+  $('mo').onclick = function(e){ if(e.target === $('mo')) closeOv('mo'); };
+  $('mprev').onclick = function(){ openStar(cur - 1); };
+  $('mnext').onclick = function(){ openStar(cur + 1); };
+
+  /* ----- wish letter ----- */
+  $('wishBtn').onclick = function(){
+    if(visitedCount < 10){ var left = 10 - visitedCount; toast(left + ' more star' + (left > 1 ? 's' : '') + ' to find ⭐'); return; }
+    confetti(55); shooting();
+    openOv('lo');
+    $('lsign').textContent = '– ' + CONFIG.yourName; $('lsign').className = 'sign';
+    clearInterval(typer); var i = 0; $('ltext').textContent = '';
+    typer = setInterval(function(){
+      i += 2; $('ltext').textContent = CONFIG.note.slice(0, i);
+      if(i >= CONFIG.note.length){ clearInterval(typer); $('ltext').textContent = CONFIG.note; $('lsign').className = 'sign on'; }
+    }, 40);
+  };
+  $('ltext').onclick = function(){ clearInterval(typer); $('ltext').textContent = CONFIG.note; $('lsign').className = 'sign on'; };
+  $('lx').onclick = function(){ clearInterval(typer); closeOv('lo'); };
+  $('lo').onclick = function(e){ if(e.target === $('lo')){ clearInterval(typer); closeOv('lo'); } };
+  $('lbx').onclick = function(){ closeOv('lb'); };
+  $('lb').onclick = function(){ closeOv('lb'); };
+
+  /* ----- moon ----- */
+  $('moon').onclick = function(){
+    var m = $('moon'), b = $('bubble');
+    m.className = 'moonwrap'; void m.offsetWidth; m.className = 'moonwrap hop';
+    b.textContent = CONFIG.moonSays[moonIx++ % CONFIG.moonSays.length]; b.className = 'bubble show';
+    clearTimeout(b.t); b.t = setTimeout(function(){ b.className = 'bubble'; }, 2600);
+    sparkleBurst(5);
+  };
+
+  /* ----- counter ----- */
+  function tick(){
+    var start = new Date(CONFIG.startDate + 'T00:00:00').getTime();
+    var diff = Math.max(0, Date.now() - (isNaN(start) ? Date.now() : start));
+    $('d').textContent = Math.floor(diff/864e5);
+    $('h').textContent = Math.floor(diff/36e5) % 24;
+    $('m').textContent = Math.floor(diff/6e4) % 60;
+    $('s').textContent = Math.floor(diff/1e3) % 60;
+  }
+  setInterval(tick, 1000);
+
+  /* ----- after she taps the welcome screen ----- */
+  window.afterSplash = function(){
+    var txt = 'Ten months, ten stars, and one very lucky me.', i = 0; $('sub').textContent = '';
+    var t = setInterval(function(){ i++; $('sub').textContent = txt.slice(0, i); if(i >= txt.length) clearInterval(t); }, 50);
+    sparkleBurst(8); setTimeout(shooting, 600);
+    if(CONFIG.music){
+      audio = new Audio(CONFIG.music); audio.loop = true; audio.volume = 0.6;
+      try { var pr = audio.play(); if(pr && pr.catch) pr.catch(function(){}); } catch(e){}
+      $('musicBtn').style.display = 'block';
+    }
+  };
+  $('musicBtn').onclick = function(){
+    if(!audio) return;
+    if(audio.paused){ audio.play(); $('musicBtn').textContent = '🎵'; } else { audio.pause(); $('musicBtn').textContent = '🔇'; }
+  };
+
+  renderTexts(); buildConstellation(); buildGallery(); refreshProgress(); tick();
+
+} catch(err){
+  /* if anything fails, quietly show all content instead of hiding it */
+  document.documentElement.className = '';
+}
+})();
+</script>
+</body>
+</html>
